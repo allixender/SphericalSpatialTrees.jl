@@ -28,7 +28,7 @@ YAXArrayBase = "90b8fcef-0c2d-428d-9c56-5f86629e9d14"
 [compat]
 Artifacts = "1.11.0"
 CoordinateTransformations = "0.6"
-DimensionalData = "0.29"
+DimensionalData = "0.29, 0.30"
 DiskArrays = "0.4.16"
 Distributed = "1"
 GeoFormatTypes = "0.4"
