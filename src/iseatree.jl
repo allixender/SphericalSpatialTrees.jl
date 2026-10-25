@@ -1,4 +1,4 @@
-using GeometryOps.UnitSpherical: SphericalCap, UnitSphereFromGeographic, GeographicFromUnitSphere, _intersects, _merge
+using GeometryOps.UnitSpherical: SphericalCap, UnitSphereFromGeographic, GeographicFromUnitSphere, _intersects
 using .NativeISEA: ISEA10, ISEA, RotateISEA, InvRotateISEA, PickPlane
 using StaticArrays: @SVector
 import YAXArrayBase
@@ -36,7 +36,7 @@ function Base.show(io::IO, tree::ISEACircleTree)
 end
 
 function get_gridextent(tree::ISEACircleTree, xr::AbstractUnitRange, yr::AbstractUnitRange, nr::AbstractUnitRange)
-    mapreduce(_merge,nr) do n
+    mapreduce(Extents.union,nr) do n
         c = getchild(tree, n)
         t = TreeNode(c.grid, TreeIndex((first(xr), last(xr) + 1), (first(yr), last(yr) + 1)))
         node_extent(t)

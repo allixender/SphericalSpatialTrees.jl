@@ -1,5 +1,5 @@
 module Equi7
-import GeometryOps.UnitSpherical: UnitSphereFromGeographic, SphericalCap, _merge, GeographicFromUnitSphere
+import GeometryOps.UnitSpherical: UnitSphereFromGeographic, SphericalCap, GeographicFromUnitSphere
 import GeometryOps.SpatialTreeInterface as STI
 import ..SphericalSpatialTrees as SST
 import DimensionalData as DD
@@ -41,7 +41,7 @@ end
 function coord_to_circle((i,j),itrans)
     x0,x1,y0,y1 = i*1e5,(i+1)*1e5,j*1e5,(j+1)*1e5
     corners = ((x0,y0),(x0,y1),(x1,y1),(x1,y0))
-    reduce(_merge,SphericalCap.(itrans.(corners),0.0))
+    reduce(Extents.union,SphericalCap.(itrans.(corners),0.0))
 end
 
 function single_split(allcoords,indices,by)
@@ -60,7 +60,7 @@ end
 
 function build_node(indices, coords,ext, tiles)
 
-    myextent = reduce(_merge,ext[indices])
+    myextent = reduce(Extents.union,ext[indices])
     children = SST.TileNode{eltype(tiles)}[]
     leaves = eltype(tiles)[]
     #Check if we are already a leaf
@@ -186,7 +186,7 @@ function SST.TreeNode(tree::Equi7Tree, target_indices)
 end
 
 function SST.get_gridextent(tree::Equi7Tree, xr::AbstractUnitRange, yr::AbstractUnitRange, nr::AbstractUnitRange)
-    mapreduce(_merge,nr) do n
+    mapreduce(Extents.union,nr) do n
         t = SST.TreeNode(tree,(xr,yr,n))
         SST.node_extent(t)
     end

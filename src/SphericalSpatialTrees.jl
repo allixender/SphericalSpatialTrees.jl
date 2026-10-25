@@ -1,5 +1,6 @@
 module SphericalSpatialTrees
 
+import Extents
 import GeoFormatTypes as GFT, GeometryOps as GO, GeoInterface as GI
 import GeometryOps.LoopStateMachine: Action
 
